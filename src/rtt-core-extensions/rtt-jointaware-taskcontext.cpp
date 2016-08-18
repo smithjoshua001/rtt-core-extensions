@@ -70,7 +70,7 @@ bool RTTJointAwareTaskContext::retrieveJointMappingsSelectively(
 }
 
 bool RTTJointAwareTaskContext::retrieveJointMappings() {
-	std::vector<base::PortInterface*> ports = this->ports()->getPorts();
+	/*std::vector<base::PortInterface*> ports = this->ports()->getPorts();
 	std::vector<base::PortInterface*>::iterator ports_iter;
 	bool not_even_one = true;
 	for (ports_iter = ports.begin(); ports_iter != ports.end(); ++ports_iter) {
@@ -87,7 +87,9 @@ bool RTTJointAwareTaskContext::retrieveJointMappings() {
 	if (is_joint_mapping_loaded) {
 		processJointMappingsHook();
 	}
-	return !not_even_one;
+	return !not_even_one;*/
+	processJointMappingsHook();
+	return true;
 }
 
 bool RTTJointAwareTaskContext::isJointMappingLoaded() {

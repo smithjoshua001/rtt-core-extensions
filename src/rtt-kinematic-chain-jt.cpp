@@ -84,16 +84,16 @@ void RTTKinematicChainJt::retrieveJointMappingsHook(
 
 void RTTKinematicChainJt::processJointMappingsHook() {
 	// further processing of mappings is needed
-	unsigned floatingIndex = 0;
-	std::map<std::string, int>::iterator iter;
-	for (unsigned int i = 0; i < _robot_chain_ports.size(); i++) {
-		for (iter = _robot_chain_ports[i]->joint_name_mapping.begin();
-				iter != _robot_chain_ports[i]->joint_name_mapping.end();
-				++iter) {
-			_command_port.joint_name_mapping[iter->first] = floatingIndex;
-			floatingIndex++;
-		}
-	}
+//	unsigned floatingIndex = 0;
+//	std::map<std::string, int>::iterator iter;
+//	for (unsigned int i = 0; i < _robot_chain_ports.size(); i++) {
+//		for (iter = _robot_chain_ports[i]->joint_name_mapping.begin();
+//				iter != _robot_chain_ports[i]->joint_name_mapping.end();
+//				++iter) {
+//			_command_port.joint_name_mapping[iter->first] = floatingIndex;
+//			floatingIndex++;
+//		}
+//	}
 	if (!connectFunctionCallHandler()) {
 		RTT::log(RTT::Error)
 				<< "Could not connect to setControlModes IF. Hence I won't be able to to change the ctrl mode automatically."
@@ -278,12 +278,12 @@ bool RTTKinematicChainJt::connectFunctionCallHandler() {
 }
 
 bool RTTKinematicChainJt::startHook() {
-	if (!is_joint_mapping_loaded) {
-		RTT::log(RTT::Warning)
-				<< "this.retrieveJointMappings() needs to be called before this component can be started!"
-				<< RTT::endlog();
-		return false;
-	}
+//	if (!is_joint_mapping_loaded) {
+//		RTT::log(RTT::Warning)
+//				<< "this.retrieveJointMappings() needs to be called before this component can be started!"
+//				<< RTT::endlog();
+//		return false;
+//	}
 
 	if ((_chain.size() == 0) || (_ctrlmode.size() == 0)) {
 		RTT::log(RTT::Warning)

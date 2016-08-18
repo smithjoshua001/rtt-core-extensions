@@ -227,6 +227,7 @@ void RTTKinematicChainJa::updateHook() {
 	if (_feedback_port.port.connected()) {
 		unsigned int floatingIndex = 0;
 		for (unsigned int i = 0; i < _robot_feedback_ports.size(); i++) {
+		
 			if (_robot_feedback_ports[i]->port.connected()) {
 				_robot_feedback_ports[i]->flowstatus =
 						_robot_feedback_ports[i]->port.read(
@@ -278,12 +279,12 @@ bool RTTKinematicChainJa::connectFunctionCallHandler() {
 }
 
 bool RTTKinematicChainJa::startHook() {
-	if (!is_joint_mapping_loaded) {
+	/*if (!is_joint_mapping_loaded) {
 		RTT::log(RTT::Warning)
 				<< "this.retrieveJointMappings() needs to be called before this component can be started!"
 				<< RTT::endlog();
 		return false;
-	}
+	}*/
 
 	if ((_chain.size() == 0) || (_ctrlmode.size() == 0)) {
 		RTT::log(RTT::Warning)
