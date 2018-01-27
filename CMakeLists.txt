@@ -74,6 +74,7 @@ include_directories(
     include
     ${Boost_INCLUDE_DIR}
     ${USE_OROCOS_INCLUDE_DIRS}
+    ${OROCOS-RTT_INCLUDE_DIRS}
     ${RST-RT_INCLUDE_DIRS}
 )
 
