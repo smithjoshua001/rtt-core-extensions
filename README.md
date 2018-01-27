@@ -1,6 +1,9 @@
 # rtt-core-extensions
 RTT Extensions for robot control (incl. kinematic chain concepts)
 
+# Dependencies
+
+https://github.com/xwavex/stdint_typekit ```import("stdint")```
 
 ```bash
 import("rtt-core-extensions")

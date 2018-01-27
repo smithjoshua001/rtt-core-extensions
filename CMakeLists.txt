@@ -24,17 +24,25 @@
  #
 
 cmake_minimum_required(VERSION 2.8.3)
-project(rtt-core-extensions)
+if (POLICY CMP0048)
+  cmake_policy(SET CMP0048 NEW)
+endif()
+
+project(rtt-core-extensions VERSION 0.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 string(TOUPPER "${CMAKE_PROJECT_NAME}" PROJECT_NAME_UPPER)
 
 set(${PROJECT_NAME_UPPER}_VERSION_MAJOR 0)
-set(${PROJECT_NAME_UPPER}_VERSION_MINOR 1)
+set(${PROJECT_NAME_UPPER}_VERSION_MINOR 2)
 set(${PROJECT_NAME_UPPER}_VERSION "${${PROJECT_NAME_UPPER}_VERSION_MAJOR}.${${PROJECT_NAME_UPPER}_VERSION_MINOR}")
 
 set(INSTALL_SUFFIX "${${PROJECT_NAME_UPPER}_VERSION}")
+
+set(INSTALL_MAJOR ${${PROJECT_NAME_UPPER}_VERSION_MAJOR})
+
+set(INSTALL_MINOR ${${PROJECT_NAME_UPPER}_VERSION_MINOR})
 
 set(LIBRARY_NAME "${CMAKE_PROJECT_NAME}${INSTALL_SUFFIX}")
 
@@ -49,6 +57,7 @@ endif()
 
 include(${OROCOS-RTT_USE_FILE_PATH}/UseOROCOS-RTT.cmake )
 
+find_package(YCM QUIET)
 find_package(Eigen3)
 add_definitions(${EIGEN3_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS})
@@ -60,6 +69,8 @@ add_definitions(${RST-RT_CFLAGS})
 link_directories(${RST-RT_LIBRARY_DIR} ${RST-RT_LIBRARY_DIRS})
 
 include_directories(
+    src
+    src/rtt-core-extensions
     include
     ${Boost_INCLUDE_DIR}
     ${USE_OROCOS_INCLUDE_DIRS}
@@ -76,12 +87,24 @@ configure_file("${CMAKE_PROJECT_NAME}-config.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}-config.cmake"
     @ONLY)
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}-config.cmake"
+configure_file("${CMAKE_PROJECT_NAME}-config-version.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}-config-version.cmake"
+    @ONLY)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}-config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}-config-version.cmake"
     DESTINATION "share/${CMAKE_PROJECT_NAME}-${INSTALL_SUFFIX}")
 
 # Build orocos components
 
-orocos_component(${COMPONENTS_LIB_NAME} src/rtt-kinematic-chain-ja.cpp src/rtt-kinematic-chain-jt.cpp)
+orocos_component(${COMPONENTS_LIB_NAME}
+                    # src/rtt-kinematic-chain-ja.cpp
+                    # src/rtt-kinematic-chain-jt.cpp
+                    src/IntrospectionReporter.cpp
+                    src/FileReporting.cpp
+                    src/rtt-introspection-base-test.cpp
+)
 set_property(TARGET ${COMPONENTS_LIB_NAME} APPEND PROPERTY COMPILE_DEFINITIONS RTT_COMPONENT)
 
 target_link_libraries(${COMPONENTS_LIB_NAME}
